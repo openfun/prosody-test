@@ -1,0 +1,21 @@
+version: "3.4"
+services:
+  prosody:
+    image: prosody/prosody:0.11
+    ports:
+      - 5222:5222
+    environment:
+      - LOCAL=marsha
+      - DOMAIN=private.marsha
+      - PASSWORD=mar$ha
+    volumes:
+      - ./docker/files/etc/prosody:/etc/prosody
+
+  prosody-nginx:
+    image: nginx:1.19
+    ports:
+      - 8061:80
+    volumes:
+      - ./docker/files/etc/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - prosody
